@@ -1,0 +1,2 @@
+Collection of utility applications for The Hub's setup. Goal to help other two fat applications and provide infrastructure to develope quick small apps.
+* reporter: Interface to create new tickets/requests for various The Hub projects
