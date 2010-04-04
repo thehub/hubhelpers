@@ -99,30 +99,15 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 <script type="text/javascript">
     $(document).ready(function() {
     function show_all_projects() {
-        // alert("all project buttons.show()");
-        $('#id_0-project_0').parent().show();
-        $('#id_0-project_1').parent().show();
-        $('#id_0-project_2').parent().show();
-        $('#id_0-project_3').parent().show();
-        $('#id_0-project_4').parent().show();
-        $('#id_0-project_0, label[for="id_0-project_0"]').show();
-        $('div.span-5 last,p').show();
+        $('#fieldname_project').show();
     }; 
 
     function set_and_show_only_networks() {
         // networks button.check()
         var project_type = $("input:checked[name='0-project']").val();
         // alert(project_type); 
+        $('#fieldname_project').hide();
         $('input[name="0-project"]')[2].checked = true // Just as a safer side, keep Hub Networks selected as selected project area.
-        $('#id_0-project_0').parent().hide();
-        $('#id_0-project_1').parent().hide();
-        $('#id_0-project_3').parent().hide();
-        $('#id_0-project_4').parent().hide();
-
-        // hide entire 2nd option
-        $('#id_0-project_0, label[for="id_0-project_0"]').hide();
-        $('#id_0-project_2').parent().hide();
-        $('div.span-5 last,p').hide();
         /* Do not delete this code: It is a code towards a solution.
         var a = $('div.span-5 last,p');
         alert (a.text());
@@ -134,25 +119,18 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
         alert (obj.textContent()); */
     };
 
-    function set_and_hide_networks() {
-        // networks button.check()
-        var project_type = $("input:checked[name='0-project']").val();
-        $('input[name="0-project"]')[2].checked = true
-        // alert(project_type); 
-    };
-
     function check_and_set_project() {
         var ticket_type = $("input:checked[name='0-ticket_type']").val();
         // alert(ticket_type);
         if (ticket_type == 'mailreq') {
-            show_all_projects();
+            // show_all_projects();
             set_and_show_only_networks();
         }
         else {
             show_all_projects();
-            set_and_hide_networks();
         }; 
      }; 
+    check_and_set_project() // set the initial state
     $("input[name='0-ticket_type']").click( check_and_set_project );
  });
 </script> 
@@ -172,7 +150,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 <form action="/reporter/new" method="post">
 <fieldset><legend> Step {{ step }} of {{ step_count }} </legend>
 {% for field in form %}
-<div class="container">
+<div class="container" div id="fieldname_{{ field.name }}">
     <div class="span-6">
     {{ field.label_tag}}
     {% if field.errors %}
