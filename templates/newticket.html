@@ -1,0 +1,45 @@
+<head>
+<script src="/site_media/css/52/html5.js"></script>
+<link rel="stylesheet" type="text/css" href="/site_media/css/52/reset.css" media="screen" title="The Hub | New ticket" />
+<link rel="stylesheet" type="text/css" href="/site_media/css/52/general.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/site_media/css/52/grid.css" media="screen" />
+<!--[if IE]>
+    <style>
+    .logo {
+                filter: Shadow(Color=#666666,   
+                Direction=135, 
+                Strength=3);
+    }
+    </style>
+<![endif]-->
+<style>
+body {font-family: Arial, Helvetica, sans-serif; letter-spacing:.01em;}
+header {height:112px; position:relative; margin-bottom:5px;}
+    header .logo {font-size:2.5em; height:52px; padding-top:28px; font-weight:700; text-shadow:1px 1px 2px #000; color:#fff;}
+    header .statement {width:20%; text-align:right; padding-top:30px;}
+header nav { background-color:#525252; color:#fff; height:30px;}
+    nav ul {list-style:none;}
+    nav ul li {float:left; margin-left:5px;}
+    nav ul li a {display:block; color:#fff; text-decoration:none; padding:2px 8px; margin-top:8px;  
+                    -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px;}
+    nav ul li a:hover, nav ul li.active a {background-color:#fff; color:#000;}
+aside {min-height:525px;}       
+footer {font-size:.8em;} 
+</style>
+</head>
+
+<body>
+
+<section class="row">
+
+<h2>New Ticket</h2>
+
+<form action="/contact/" method="post">
+{{ form.as_p }}
+<div class="clear"></div>
+<button class="submit">submit &raquo;</button>
+</form>
+</section>
+
+
+</body>

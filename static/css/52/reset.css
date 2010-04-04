@@ -1,0 +1,30 @@
+@charset "utf-8";
+/********************************************************************************************/
+/** Basic reset - By Eric Meyer and Paul Chaplin, http://meyerweb.com/eric/tools/css/reset/ */
+/** Included HTML5 Elements by Angel Grablev and the 52framework team ***********************/
+/********************************************************************************************/
+*,html,body,div,span,applet,object,iframe,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,strong,tt,var,dl,dt,dd,blockquote,fieldset,form,i,b,caption,tbody,tfoot,thead,tr,th,td,abbr,article,aside,audio,canvas,datalist,details,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video {
+	margin:0;
+	padding:0;
+	vertical-align:baseline;
+}
+body{
+	background:#fff;
+	color:#000;
+	font:75%/1.5em Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
+	position:relative;
+}
+textarea{
+	font:100%/1.5em Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
+}
+blockquote,q{
+	quotes:none;
+}
+blockquote:before,blockquote:after,q:before,q:after{
+	content:'';content:none;
+}
+:focus{
+	outline:1px dotted;
+}
+abbr,article,aside,audio,canvas,datalist,details,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video {display:block !important;}
+

@@ -1,0 +1,19 @@
+ * request: (${req_dict['mailreq_type']})
+  * request data:
+   % for key in mailreqmapping[req_dict['mailreq_type']]:
+    % if key == 'emaillist':
+    * ${key}: 
+       % for d in req_dict[key]:
+       * ${d['fwdmail']} 
+       % endfor
+    % else:
+    * ${key}: ${req_dict.get(key, '')} 
+    % endif
+   % endfor
+----
+
+% if req_dict.get('mailreqmoreinfo', ''):
+ * Additional information on this person/address/list:
+
+${req_dict.get('mailreqmoreinfo', '')}
+% endif

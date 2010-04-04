@@ -1,0 +1,18 @@
+% if project == 'networks':
+
+OS:          ${os}
+
+Description: ${description}
+
+% else:
+Location:    ${location},
+
+URL:         ${url}
+
+Browser:     ${browser} on ${os}
+
+Description: ${description}
+
+Suggestion:  ${suggestion}
+
+% endif
