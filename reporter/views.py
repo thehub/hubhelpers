@@ -117,7 +117,7 @@ def set_fieldvalue_in_step(step, data, name, value):
 
 class TicketWizard(FormWizard):
     def get_template(self, step):
-        return "/opt/apphomes/hubreporter/dev/hubhelpers/templates/newticketwizard.html"
+        return "newticketwizard.html"
     def process_step(self, request, form, step):
         if step == 0:
             return self.process_step_0(request, form, step)
