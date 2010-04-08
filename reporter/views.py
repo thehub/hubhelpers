@@ -34,7 +34,7 @@ class AboutYouAndRequestTypeForm(forms.Form):
         ('website', 'Hub Website (microsite, main website)'),
         ('hubplus', 'Hub Plus'),
         ('networks', 'Hub Networks (Mailing lists, e-mail, internet, security, printing)'),
-        ('test', "Test project (Don't use for real issues)"),
+        #('test', "Test project (Don't use for real issues)"),
         )
 
     mailreq_type = forms.ChoiceField(label="Mail Request Type", required=False, widget=forms.RadioSelect, initial='mailreq', help_text='Select default if you are unsure')
@@ -196,7 +196,7 @@ def create(ticket_type, project, reporter, email, **kw):
     return submit(project, reporter, email, summary, ticket_description, location, component="", **kw)
 
 def submit(project, reporter, email, summary, ticket_description="", location=None, component="", **kw):
-    project = "test"
+    #project = "test"
     baseurl_exposed = "https://trac.the-hub.net"
     baseurl = "http://172.24.0.206:13000"
     loginurl = "%s/%s/login" % (baseurl, project)
