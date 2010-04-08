@@ -107,16 +107,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
         var project_type = $("input:checked[name='0-project']").val();
         // alert(project_type); 
         $('#fieldname_project').hide();
-        $('input[name="0-project"]')[2].checked = true // Just as a safer side, keep Hub Networks selected as selected project area.
-        /* Do not delete this code: It is a code towards a solution.
-        var a = $('div.span-5 last,p');
-        alert (a.text());
-        alert (typeof (a.text()) );
-        var temp = a.text();
-        alert (temp.split(" ")); 
-        alert (a[0].text()); 
-        obj = a[0]
-        alert (obj.textContent()); */
+        $('input[name="0-project"]')[3].checked = true // Just as a safer side, keep Hub Networks selected as selected project area.
     };
 
     function check_and_set_project() {
@@ -125,12 +116,27 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
         if (ticket_type == 'mailreq') {
             // show_all_projects();
             set_and_show_only_networks();
+            $('#fieldname_mailreq_type').show();
         }
         else {
+            hide_mail_request_type();
             show_all_projects();
         }; 
      }; 
-    check_and_set_project() // set the initial state
+
+    function hide_mail_request_type(){
+        $('#fieldname_mailreq_type').hide();
+        if ($('input[name="0-mailreq_type"]').is(':checked')) {
+            temp =  $('input[name="0-mailreq_type"]:checked').val() ;
+        }
+        else
+        {
+            $('input[name="0-mailreq_type"]')[0].checked = true // Just as a safer side, keep 'simple mail forwarding' selected as selected mail request type.
+        }
+    }
+
+    hide_mail_request_type();
+    check_and_set_project(); // set the initial state
     $("input[name='0-ticket_type']").click( check_and_set_project );
  });
 </script> 

@@ -32,10 +32,22 @@ class AboutYouAndRequestTypeForm(forms.Form):
     project.choices = (
         ('space', 'Hub Space (Invoicing, space booking, membership management)'),
         ('website', 'Hub Website (microsite, main website)'),
-        ('networks', 'Hub Networks (Mailing lists, e-mail, internet, security, printing)'),
         ('hubplus', 'Hub Plus'),
+        ('networks', 'Hub Networks (Mailing lists, e-mail, internet, security, printing)'),
         ('test', "Test project (Don't use for real issues)"),
         )
+
+    mailreq_type = forms.ChoiceField(label="Mail Request Type", required=False, widget=forms.RadioSelect, initial='mailreq', help_text='Select default if you are unsure')
+    mailreq_type.choices = (
+        ('forward', 'Personal mail address as a simple forwarding'),
+        ('personal', 'Personal mail address as IMAP/POP3 mailbox (staff only)'),
+        ('pubcontact', 'Public contact address (e.g.  location (e.g.  location.hosts@the-hub.net).hosts@the-hub.net)'),
+        ('ml', 'Mailing List  (e.g.  location.members@lists.the-hub.net)'),
+        )
+
+    global mailreq_choices
+    mailreq_choices = mailreq_type.choices
+
     reporter = forms.CharField(label="Your Name")
     email = forms.EmailField(label="Your Email address", help_text="to update you about the progress")
     cc_email = forms.EmailField(label="Also notify", required=False, help_text="Do you want to add one more email to ticket notifications?")
@@ -50,28 +62,17 @@ common_fields.summary = (forms.CharField, dict(max_length=100, required=True)) #
 
 class BugForm(forms.Form):
     summary = forms.CharField(label="Short summary of the problem", max_length=100, required=True)
-    url = forms.URLField(label='URL', required=False)
-    browser = forms.CharField(max_length=50, required=False)
     os = forms.CharField(label="Operating System", max_length=50, required=False)
     description = forms.CharField(widget=forms.widgets.Textarea, label="Please take us through, step by step, what happened before the error occurred. This will help us recreate what happened on our machines", required=False, help_text="eg.1) Click edit in Profile section \n 2) Change the fax no.")
     suggestion = forms.CharField(label="Do you have a suggested solution?", widget=forms.Textarea, required=False)
+    url = forms.URLField(label='URL', required=False)
+    browser = forms.CharField(max_length=50, required=False)
 
 class NetworkTicketForm(forms.Form):
     summary = forms.CharField(label="Short summary of the problem", max_length=100, required=True)
     os = forms.CharField(label="Operating System", max_length=50, required=False)
     description = forms.CharField(widget=forms.widgets.Textarea, label="Please take us through, step by step, what happened before the error occurred. This will help us recreate what happened on our machines", required=False, help_text="eg.1) Click edit in Profile section \n 2) Change the fax no.")
     suggestion = forms.CharField(label="Do you have a suggested solution?", widget=forms.Textarea, required=False)
-
-mailreq_choices = (
-        ('forward', 'Personal mail address as a simple forwarding'),
-        ('personal', 'Personal mail address as IMAP/POP3 mailbox (staff only)'),
-        ('pubcontact', 'Public contact address (e.g.  location (e.g.  location.hosts@the-hub.net).hosts@the-hub.net)'),
-        ('ml', 'Mailing List  (e.g.  location.members@lists.the-hub.net)'),
-        )
-
-class MailRequestTypeForm(forms.Form):
-    mailreq_type = forms.ChoiceField(required=True, widget=forms.RadioSelect, label="Request Type")
-    mailreq_type.choices = mailreq_choices
 
 class MailRequestForm(forms.Form): pass
 
@@ -120,23 +121,18 @@ class TicketWizard(FormWizard):
         return "newticketwizard.html"
     def process_step(self, request, form, step):
         if step == 0:
-            return self.process_step_0(request, form, step)
-        elif isinstance(form, MailRequestTypeForm):
+            project_type = fieldvalue_in_step(step, form.data, 'project')
+            ticket_type = fieldvalue_in_step(step, form.data, 'ticket_type')
             mailreq_type = fieldvalue_in_step(step, form.data, 'mailreq_type')
-            Form = mailreq_forms[mailreq_type]
-            form_index = self.form_list.index(MailRequestForm)
-            self.form_list[form_index] = Form
-    def process_step_0(self, request, form, step):
-        if fieldvalue_in_step(step, form.data, 'project') == 'networks':
-            if fieldvalue_in_step(step, form.data, 'ticket_type') == 'mailreq':
-                self.form_list[1] = MailRequestTypeForm
+            if (project_type == 'networks'):
+                if (ticket_type == 'mailreq'):
+                    Form = mailreq_forms[mailreq_type]
+                    form_index = self.form_list.index(MailRequestForm)
+                    self.form_list[form_index] = Form
+                else:
+                    self.form_list[1] = NetworkTicketForm
             else:
-                self.form_list[1] = NetworkTicketForm
-                self.form_list.remove(MailRequestForm)
-        else:
-            self.form_list.remove(MailRequestForm)
-            #if fieldvalue_in_step(step, form.data, 'ticket_type') == 'mailreq':
-            #    set_fieldvalue_in_step(step, form.data, 'ticket_type', 'bug')
+                self.form_list[1] = BugForm
     def done(self, request, form_list):
         merged_dict = {}
         for form in form_list:
@@ -171,7 +167,7 @@ def new(request):
 
     initial[1] = dict(os=os_info_s, browser=br_info_s)
 
-    return TicketWizard([AboutYouAndRequestTypeForm, BugForm, MailRequestForm], initial=initial)(request)
+    return TicketWizard([AboutYouAndRequestTypeForm, MailRequestForm], initial=initial)(request)
 
 template_map = dict (bug = "reporter/templates/issue.txt", mailreq = "reporter/templates/mailreq.txt")
 
@@ -216,7 +212,11 @@ def submit(project, reporter, email, summary, ticket_description="", location=No
     # else: no form ?
     b['user'] = settings.TRAC_USER
     b['password'] = settings.TRAC_SECRET
-    b.submit()
+    try:
+        b.submit()
+    except Exception, err:
+        print err
+        print "Please unset http_proxy and https_proxy before you start the issue reporter deamon."
     
     b.open(newticketurl)
     forms = list(b.forms())

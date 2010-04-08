@@ -4,6 +4,8 @@ OS:          ${os}
 
 Description: ${description}
 
+Suggestion:  ${suggestion}
+
 % else:
 Location:    ${location},
 
