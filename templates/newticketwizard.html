@@ -126,11 +126,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 
     function hide_mail_request_type(){
         $('#fieldname_mailreq_type').hide();
-        if ($('input[name="0-mailreq_type"]').is(':checked')) {
-            temp =  $('input[name="0-mailreq_type"]:checked').val() ;
-        }
-        else
-        {
+        if (!($('input[name="0-mailreq_type"]').is(':checked'))) {
             $('input[name="0-mailreq_type"]')[0].checked = true // Just as a safer side, keep 'simple mail forwarding' selected as selected mail request type.
         }
     }
