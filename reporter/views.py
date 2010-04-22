@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.formtools.wizard import FormWizard
 
 import base64
+import os
 import mechanize
 from mako.template import Template
 import httpagentparser
@@ -215,9 +216,15 @@ def submit(project, reporter, email, summary, ticket_description="", location=No
     try:
         b.submit()
     except Exception, err:
-        print err
-        print "Please unset http_proxy and https_proxy before you start the issue reporter deamon."
-    
+        #print dir(err) # simple debug, remove this
+        #print dir(err.wrapped) # simple debug, remove this
+        #print err.wrapped.msg # simple debug, remove this
+        if isinstance(err, mechanize._response.seek_wrapper):
+            if err.wrapped.code == 501 and 'https_proxy' in os.environ:
+                raise Exception("Hint: try unset https_proxy before you start the issue reporter deamon")
+        # at this point we should email the request to us
+        raise 
+
     b.open(newticketurl)
     forms = list(b.forms())
     for form in forms:

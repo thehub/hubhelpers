@@ -82,11 +82,11 @@ legend {
 }
 
 input[type='text'] {
-    width: 325px;
+    width: 400px;
 }
 
 textarea {
-    width: 325px;
+    width: 400px;
     height: 100px;
 }
 
@@ -149,7 +149,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 <div id="main_content">
 <div class='container' id="content">
  
-<form action="/reporter/new" method="post">
+<form action="/reporter/new" method="post" name="reporter_form">
 <fieldset><legend> Step {{ step }} of {{ step_count }} </legend>
 {% for field in form %}
 <div class="container" div id="fieldname_{{ field.name }}">
@@ -159,7 +159,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
     <br/><div class="error"> {{ field.errors }}</div>
     {% endif %}
     </div>
-    <div class="span-9">
+    <div class="span-12">
     {{ field }} </div>
     <div class="span-5 last"><p> <em style="color: grey;">{{ field.help_text}}</em> </p></div>
 </div>
@@ -168,7 +168,10 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 {{ previous_fields|safe }}
 <hr class="space"/>
 
-<button type="submit" class="submit">Next &raquo;</button>
+<!-- Just a note: This could have been done by just adding onclick/onsubmit instead of defining names for form/button. But IE/FF works differently when it comes to disabling submit button and submitting teh form at the same time. If you disable submit button on onclick/onsubmit event, FF accepts the first click, submits the form and disables the button. But IE does not let the first click to occur, and disables the button as well as the click. So, had to process this current way. -->
+
+<button type="submit" name="submit_button" onclick="document.reporter_form.submit_button.value='One Moment Please...'; document.reporter_form.submit_button.disabled=true; document.reporter_form.submit(); class="submit">Next &raquo;</button>
+
 </Fieldset>
 </form>
 
