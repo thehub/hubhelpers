@@ -33,7 +33,7 @@ class AboutYouAndRequestTypeForm(forms.Form):
     project.choices = (
         ('space', 'Hub Space (Invoicing, space booking, membership management)'),
         ('website', 'Hub Website (microsite, main website)'),
-        ('hubplus', 'Hub Plus'),
+        ('plus', 'Hub Plus'),
         ('networks', 'Hub Networks (Mailing lists, e-mail, internet, security, printing)'),
         #('test', "Test project (Don't use for real issues)"),
         )
@@ -203,6 +203,7 @@ def submit(project, reporter, email, summary, ticket_description="", location=No
     loginurl = "%s/%s/login" % (baseurl, project)
     newticketurl = "%s/%s/newticket" % (baseurl, project)
     b = mechanize.Browser()
+    b.set_handle_robots(False)
     b.open(loginurl)
     forms = list(b.forms())
     for form in forms:
@@ -246,7 +247,10 @@ def submit(project, reporter, email, summary, ticket_description="", location=No
         b['field_cc'] = kw['cc_email']
     b.submit('submit')
     links = b.links()
-    defect_url = [lnk for lnk in b.links() if lnk.text == 'View'][0].absolute_url
+    try:
+        defect_url = [lnk for lnk in b.links() if lnk.text == 'View'][0].absolute_url
+    except IndexError:
+        defect_url = b.geturl()
     return defect_url.replace(baseurl, baseurl_exposed)
 
 

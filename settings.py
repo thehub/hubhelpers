@@ -1,5 +1,10 @@
 # Django settings for hubhelpers project.
 import os
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+del sys.setdefaultencoding
+print "default encoding: utf-8"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
