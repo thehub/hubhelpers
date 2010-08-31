@@ -217,9 +217,6 @@ def submit(project, reporter, email, summary, ticket_description="", location=No
     try:
         b.submit()
     except Exception, err:
-        #print dir(err) # simple debug, remove this
-        #print dir(err.wrapped) # simple debug, remove this
-        #print err.wrapped.msg # simple debug, remove this
         if isinstance(err, mechanize._response.seek_wrapper):
             if err.wrapped.code == 501 and 'https_proxy' in os.environ:
                 raise Exception("Hint: try unset https_proxy before you start the issue reporter deamon")
