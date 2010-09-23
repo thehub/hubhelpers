@@ -33,6 +33,7 @@ SFO = 'San Francisco',
 SPA = 'Sao Paulo',
 STH = 'Stockholm',
 TLV = 'Tel Aviv',
+TRE = 'Tampere',
 VIE = 'Vienna',
 WLD = 'Hub World'
 )
