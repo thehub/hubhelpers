@@ -82,11 +82,11 @@ legend {
 }
 
 input[type='text'] {
-    width: 325px;
+    width: 400px;
 }
 
 textarea {
-    width: 325px;
+    width: 400px;
     height: 100px;
 }
 
@@ -107,16 +107,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
         var project_type = $("input:checked[name='0-project']").val();
         // alert(project_type); 
         $('#fieldname_project').hide();
-        $('input[name="0-project"]')[2].checked = true // Just as a safer side, keep Hub Networks selected as selected project area.
-        /* Do not delete this code: It is a code towards a solution.
-        var a = $('div.span-5 last,p');
-        alert (a.text());
-        alert (typeof (a.text()) );
-        var temp = a.text();
-        alert (temp.split(" ")); 
-        alert (a[0].text()); 
-        obj = a[0]
-        alert (obj.textContent()); */
+        $('input[name="0-project"]')[3].checked = true; // Just as a safer side, keep Hub Networks selected as selected project area.
     };
 
     function check_and_set_project() {
@@ -125,12 +116,24 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
         if (ticket_type == 'mailreq') {
             // show_all_projects();
             set_and_show_only_networks();
+            $('#fieldname_mailreq_type').show();
         }
         else {
+            hide_mail_request_type();
             show_all_projects();
         }; 
      }; 
-    check_and_set_project() // set the initial state
+
+    function hide_mail_request_type(){
+        $('#fieldname_mailreq_type').hide();
+        if (!($('input[name="0-mailreq_type"]').is(':checked'))) {
+            $('input[name="0-mailreq_type"]')[0].checked = true // Just as a safer side, keep 'simple mail forwarding' selected as selected mail request type.
+        }
+    }
+
+    $('input[name="0-project"]').removeAttr('checked') // For #755: Do not pre-select a default area in the issue reporter
+    hide_mail_request_type();
+    check_and_set_project(); // set the initial state
     $("input[name='0-ticket_type']").click( check_and_set_project );
  });
 </script> 
@@ -140,14 +143,14 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 
 <div class="container ">
 <header>
-<div class="logo left">The Hub Issue Reporter</div>
+<div class="logo middle">The Hub Issue Reporter</div>
 </header>
 
 <div id="main">
 <div id="main_content">
 <div class='container' id="content">
  
-<form action="/reporter/new" method="post">
+<form action="/reporter/new" method="post" name="reporter_form">
 <fieldset><legend> Step {{ step }} of {{ step_count }} </legend>
 {% for field in form %}
 <div class="container" div id="fieldname_{{ field.name }}">
@@ -166,7 +169,10 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 {{ previous_fields|safe }}
 <hr class="space"/>
 
-<button type="submit" class="submit">Next &raquo;</button>
+<!-- Just a note: This could have been done by just adding onclick/onsubmit instead of defining names for form/button. But IE/FF works differently when it comes to disabling submit button and submitting teh form at the same time. If you disable submit button on onclick/onsubmit event, FF accepts the first click, submits the form and disables the button. But IE does not let the first click to occur, and disables the button as well as the click. So, had to process this current way. -->
+
+<button type="submit" name="submit_button" onclick="document.reporter_form.submit_button.value='One Moment Please...'; document.reporter_form.submit_button.disabled=true; document.reporter_form.submit(); class="submit">Next &raquo;</button>
+
 </Fieldset>
 </form>
 
