@@ -160,9 +160,9 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
     <br/><div class="error"> {{ field.errors }}</div>
     {% endif %}
     </div>
-    <div class="span-9">
+    <div class="span-11">
     {{ field }} </div>
-    <div class="span-5 last"><p> <em style="color: grey;">{{ field.help_text}}</em> </p></div>
+    <div class="span-5"><p> <em style="color: grey;">{{ field.help_text}}</em> </p></div>
 </div>
 {% endfor %}
 <input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
