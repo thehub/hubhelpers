@@ -26,8 +26,8 @@ class AboutYouAndRequestTypeForm(forms.Form):
 
     ticket_type = forms.ChoiceField(required=True, widget=forms.RadioSelect, label='What describes your request best?', initial='bug')
     ticket_type.choices = (
-        ('bug', 'Report an issue. (like problem, requirement or feature request, multiple mail address request)'),
-        ('mailreq', 'Single mail address request'),
+        ('bug', 'Report an issue. (like problem, requirement or feature request, mail address change, multiple mail address request)'),
+        ('mailreq', 'Request a new mail address'),
     )
     project = forms.ChoiceField(label="Which area are you having problems with?", required=True, widget=forms.RadioSelect, help_text="Select area 'Hub Networks' if you are unsure", initial='networks')
     project.choices = (
