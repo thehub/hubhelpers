@@ -151,7 +151,7 @@ $(document).ready( function() {
 <legend> Step {{ step }} of {{ step_count }} </legend>
 {% for field in form %}
 <div class="container" id="fieldname_{{ field.name }}">
-    <div class="span-4 colborder">
+    <div class="prepend-1 span-4 colborder">
     {{ field.label_tag}}
     {% if field.errors %}
     <br/><div class="error"> {{ field.errors }}</div>
