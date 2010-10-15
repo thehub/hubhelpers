@@ -1,10 +1,9 @@
 <head>
 <title>The Hub | Issue Reporter </title>
-  <!-- Framework CSS -->
-    <link rel="stylesheet" href="http://blueprintcss.org/blueprint/screen.css" type="text/css" media="screen, projection"i/>
-  <!--[if lt IE 8]><link rel="stylesheet" href="http://blueprintcss.org/blueprint/ie.css" type="text/css" media="screen, projection"/><![endif]-->
-   <!-- Import fancy-type plugin for the sample page. -->
-   <link rel="stylesheet" href="http://www.blueprintcss.org/blueprint/src/forms.css" type="text/css" media="screen"/>
+<!-- Framework CSS -->
+<link rel="stylesheet" href="http://blueprintcss.org/blueprint/screen.css" type="text/css" media="screen, projection"/>
+<!--[if lt IE 8]><link rel="stylesheet" href="http://blueprintcss.org/blueprint/ie.css" type="text/css" media="screen, projection"/><![endif]-->
+<link rel="stylesheet" href="http://www.blueprintcss.org/blueprint/src/forms.css" type="text/css" media="screen"/>
 <style>
 html {
 	background: #555555 ;
@@ -95,19 +94,21 @@ header .logo {font-size:2.5em; height:52px; padding-top:28px; font-weight:700; t
 header .statement {width:20%; text-align:right; padding-top:30px;}
 
 </style>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="http://oli.jp/css/styles.cs" type="text/css" media="screen"/> -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
+$(document).ready( function() {
+
     function show_all_projects() {
         $('#fieldname_project').show();
-    }; 
+    };
 
     function set_and_show_only_networks() {
-        // networks button.check()
+        // networks button.click()
         var project_type = $("input:checked[name='0-project']").val();
         // alert(project_type); 
         $('#fieldname_project').hide();
-        $('input[name="0-project"]')[3].checked = true; // Just as a safer side, keep Hub Networks selected as selected project area.
+        $('input[name="0-project"]')[3].click(); // Just as a safer side, keep Hub Networks selected as selected project area.
     };
 
     function check_and_set_project() {
@@ -127,15 +128,15 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
     function hide_mail_request_type(){
         $('#fieldname_mailreq_type').hide();
         if (!($('input[name="0-mailreq_type"]').is(':checked'))) {
-            $('input[name="0-mailreq_type"]')[0].checked = true // Just as a safer side, keep 'simple mail forwarding' selected as selected mail request type.
-        }
-    }
+            $('input[name="0-mailreq_type"]')[0].click();// Just as a safer side, keep 'simple mail forwarding' selected as selected mail request type.
+        };
+    };
 
-    $('input[name="0-project"]').removeAttr('checked') // For #755: Do not pre-select a default area in the issue reporter
+    $('input[name="0-project"]').removeAttr('checked'); // For #755: Do not pre-select a default area in the issue reporter
     hide_mail_request_type();
     check_and_set_project(); // set the initial state
     $("input[name='0-ticket_type']").click( check_and_set_project );
- });
+});
 </script> 
 </head>
 
@@ -149,12 +150,14 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 <div id="main">
 <div id="main_content">
 <div class='container' id="content">
- 
+
 <form action="/reporter/new" method="post" name="reporter_form">
-<fieldset><legend> Step {{ step }} of {{ step_count }} </legend>
+
+<fieldset>
+<legend> Step {{ step }} of {{ step_count }} </legend>
 {% for field in form %}
-<div class="container" div id="fieldname_{{ field.name }}">
-    <div class="span-6">
+<div class="container" id="fieldname_{{ field.name }}">
+    <div class="span-4">
     {{ field.label_tag}}
     {% if field.errors %}
     <br/><div class="error"> {{ field.errors }}</div>
@@ -171,7 +174,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 
 <!-- Just a note: This could have been done by just adding onclick/onsubmit instead of defining names for form/button. But IE/FF works differently when it comes to disabling submit button and submitting teh form at the same time. If you disable submit button on onclick/onsubmit event, FF accepts the first click, submits the form and disables the button. But IE does not let the first click to occur, and disables the button as well as the click. So, had to process this current way. -->
 
-<button type="submit" name="submit_button" onclick="document.reporter_form.submit_button.value='One Moment Please...'; document.reporter_form.submit_button.disabled=true; document.reporter_form.submit(); class="submit">Next &raquo;</button>
+<button type="submit" name="submit_button" onclick="document.reporter_form.submit_button.value='One Moment Please...'; document.reporter_form.submit_button.disabled=true; document.reporter_form.submit();" class="submit">Next &raquo;</button>
 
 </Fieldset>
 </form>
@@ -181,7 +184,7 @@ header .statement {width:20%; text-align:right; padding-top:30px;}
 </div>
 
 </div>
-
 </div>
+
 
 </body>
