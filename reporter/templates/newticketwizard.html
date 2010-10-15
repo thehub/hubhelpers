@@ -1,3 +1,4 @@
+<html>
 <head>
 <title>The Hub | Issue Reporter </title>
 <!-- Framework CSS -->
@@ -42,6 +43,10 @@ label {
     font-weight: normal;
 }
 
+fieldset {
+    padding:1 1 2;
+}
+
 a {
 	color: #286571;
 }
@@ -68,16 +73,7 @@ ol li {
 	background: #efefef;
 	border: 10px solid #fff;
 	margin-bottom: 10px;
-	overflow: hidden;
 	padding: 0 10px;
-}
-
-fieldset {
-        border: 1;
-}
-
-legend {
-        border: 1;
 }
 
 input[type='text'] {
@@ -147,8 +143,6 @@ $(document).ready( function() {
 <div class="logo middle">The Hub Issue Reporter</div>
 </header>
 
-<div id="main">
-<div id="main_content">
 <div class='container' id="content">
 
 <form action="/reporter/new" method="post" name="reporter_form">
@@ -157,15 +151,15 @@ $(document).ready( function() {
 <legend> Step {{ step }} of {{ step_count }} </legend>
 {% for field in form %}
 <div class="container" id="fieldname_{{ field.name }}">
-    <div class="span-4">
+    <div class="span-4 colborder">
     {{ field.label_tag}}
     {% if field.errors %}
     <br/><div class="error"> {{ field.errors }}</div>
     {% endif %}
     </div>
-    <div class="span-11">
+    <div class="span-11 colborder">
     {{ field }} </div>
-    <div class="span-5"><p> <em style="color: grey;">{{ field.help_text}}</em> </p></div>
+    <div class="span-4 last"><p> <em style="color: grey;">{{ field.help_text}}</em> </p></div>
 </div>
 {% endfor %}
 <input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
@@ -174,7 +168,10 @@ $(document).ready( function() {
 
 <!-- Just a note: This could have been done by just adding onclick/onsubmit instead of defining names for form/button. But IE/FF works differently when it comes to disabling submit button and submitting teh form at the same time. If you disable submit button on onclick/onsubmit event, FF accepts the first click, submits the form and disables the button. But IE does not let the first click to occur, and disables the button as well as the click. So, had to process this current way. -->
 
-<button type="submit" name="submit_button" onclick="document.reporter_form.submit_button.value='One Moment Please...'; document.reporter_form.submit_button.disabled=true; document.reporter_form.submit();" class="submit">Next &raquo;</button>
+<div class="prepend-1">
+    <button type="submit" name="submit_button" onclick="document.reporter_form.submit_button.value='One Moment Please...'; document.reporter_form.submit_button.disabled=true; document.reporter_form.submit();" class="submit">Next &raquo;</button>
+</div>
+<br/>
 
 </Fieldset>
 </form>
@@ -183,8 +180,5 @@ $(document).ready( function() {
 </div>
 </div>
 
-</div>
-</div>
-
-
 </body>
+</html>
